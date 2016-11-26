@@ -54,7 +54,6 @@ public class Card {
 
     /**
      * The suit for the current card.
-     * inconceivable.
      */
     private Suit suit;
 
