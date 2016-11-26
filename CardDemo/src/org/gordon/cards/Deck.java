@@ -122,7 +122,7 @@ public class Deck {
             return false;
         }
         Deck d = (Deck) obj;
-        return cards.equals(d.cards);
+        return cards.equals(d.cards) && (cardsRemaining == d.cardsRemaining);
     }
 
     @Override
