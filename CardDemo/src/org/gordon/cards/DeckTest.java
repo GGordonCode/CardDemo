@@ -2,12 +2,12 @@ package org.gordon.cards;
 
 import static org.junit.Assert.*;
 
-import java.util.Random;
-
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class DeckTest {

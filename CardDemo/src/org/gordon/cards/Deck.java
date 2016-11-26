@@ -88,7 +88,7 @@ public class Deck {
      */
     public synchronized Card dealOneCard() throws EmptyDeckException {
         if (cardsRemaining == 0) {
-            throw new EmptyDeckException("Card deck is empty!");
+            throw new EmptyDeckException("No cards remaining to deal!");
         }
 
         // Take the last card by decrementing the card count.
