@@ -5,13 +5,22 @@ Main classes are Card and Deck.  There are embedded public Enums in Card for sui
 
 Usage:
 
-Deck d = new Deck();
-
-d.shuffle();
-
 try {
+    Deck d = new Deck();
 
-    d.isEmpty();
+    d.shuffle();
+
+    if (!d.isEmpty()) {
+
+        Card c = d.dealOneCard();
+
+        Card.Suit suit = c.getSuit();
+
+        Card.Rank rank = c.getRank();
+
+        System.out.println("I drew card: " + c);
+    
+    }
 
 } catch (EmptyDeckException e) {
 
@@ -19,12 +28,5 @@ try {
 
 }
 
-Card c = d.dealOneCard();
-
-Card.Suit suit = c.getSuit();
-
-Card.Rank rank = c.getRank();
-
-System.out.println("I drew card: " + c);
 
 See comments in code for design justifications.
