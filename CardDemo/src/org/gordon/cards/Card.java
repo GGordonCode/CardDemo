@@ -7,15 +7,10 @@ public class Card {
 
     /**
      * The enumeration of card ranks, along with a per-type printable string.
-     * There are cuter ways to do this, by not assigning a value to TWO through
-     * TEN, and using Integer.toString(this.ordinal() + 2) for the string value,
-     * for those but it's a little inconsistent to assign a null pointer to some
-     * members, ordinal() is really intended for internal use, and the extra
-     * overhead of the numeric strings is not huge.
      */
     public static enum Rank {
-        TWO("2"), THREE("3"), FOUR("4"), FIVE("5"), SIX("6"), SEVEN("7"), EIGHT("8"),
-        NINE("9"), TEN("10"), JACK("Jack"), QUEEN("Queen"), KING("King"), ACE("Ace");
+        ACE("Ace"), TWO("2"), THREE("3"), FOUR("4"), FIVE("5"), SIX("6"), SEVEN("7"),
+        EIGHT("8"), NINE("9"), TEN("10"), JACK("Jack"), QUEEN("Queen"), KING("King");
 
         private final String name;
 
