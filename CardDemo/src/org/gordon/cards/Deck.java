@@ -9,18 +9,34 @@ import java.util.Random;
  * Abstraction to hold the complete set of playing cards and shuffle and deal
  * out cards.
  * 
- * Note the problem spec does *not* address whether concurrent access is
- * permissible. It is not clear that using a deck of cards from concurrent
- * threads makes sense, so we document here that the code is not thread
- * safe. Even if we made the methods synchronized, there would still be a race
- * condition from the time the user called isEmpty() to the invocation of
- * dealOneCard(), so more work would be required of the caller.
+ * Please see the class design notes here (just below) - I've included them in case
+ * we don't have a chance to discuss my design decisions.
  * 
- * The other option of having dealOneCard() return null for an empty deck, to open
- * the possibility of using synchronized methods, is an invitation for trouble, as
- * the caller may end up with a hard-to-track-down NPE due to misuse. If we were
- * coding for JDK 8 onward, perhaps having dealOneCard() return an Optional could
- * arguably be considered.
+ * The problem spec says to "assume the principle of least surprise".  However,
+ * the spec does *not* address whether concurrent access of the deck is permissible.
+ * After playing around with various implementations, I came to the conclusion that
+ * the most prudent course of action is to leave everything not thread-safe and
+ * document it is as such.  The caller should add concurrency protection as needed
+ * in their code, and making our methods synchronized will not really help much anyway.
+ * 
+ * The reason for this decision is that after exploring various design alternatives,
+ * I concluded that there is a legitimate use case for the user checking whether the
+ * deck is empty without drawing a card.  And given that this involves two separate methods,
+ * there will always be a race condition between the time the user checks whether the deck
+ * is empty and then retrieves the deck.
+ * 
+ * Now we could have eliminated the empty deck check call by having drawOneCard() return
+ * null for an empty deck (which is unsafe in terms of creating a "defensive" API), or use
+ * an Optional<Card> as the return type (which I had coded up), but there still might be
+ * cases where the user simply wants to check the deck without drawing a card, so this does
+ * not solve the race condition.  So I went back to the classical boolean isDeckEmpty(),
+ * dealOneCard() throws Exception approach.  Easy to understand for the caller and safe.
+ * I could have added both atomic and non-atomic APIs to check and deal, but then this becomes
+ * needlessly complex and confusing for a very simple abstraction.
+ * 
+ * All of that said, for concurrent use of the deck, the user would have to implement a fair
+ * bit of synchronization, as even safely drawing a card does not ensure that another thread
+ * won't change the deck contents. 
  */
 public class Deck {
 
@@ -86,21 +102,13 @@ public class Deck {
      * @throws EmptyDeckException
      *             if the deck is empty.
      */
-    public synchronized Card dealOneCard() throws EmptyDeckException {
+    public Card dealOneCard() throws EmptyDeckException {
         if (cardsRemaining == 0) {
             throw new EmptyDeckException("No cards remaining to deal!");
         }
 
         // Take the last card by decrementing the card count.
         return cards.get((cardsRemaining--) - 1);
-    }
-    
-    /**
-     * Return the number of cards left undealt in the deck.
-     * @return The number of cards remaining in the deck.
-     */
-    public int getCardsRemaining() {
-        return cardsRemaining;
     }
     
     /**
