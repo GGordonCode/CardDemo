@@ -82,7 +82,9 @@ public class Deck {
         for (int i = cardsRemaining - 1; i > 0; --i) {
             // Random number in the range [0..i]
             int swapee = generator.nextInt(i + 1);
-            Collections.swap(cards, i, swapee);
+            Card tempCard = cards.get(i);
+            cards.set(i, cards.get(swapee));
+            cards.set(swapee, tempCard);
         }
     }
 
