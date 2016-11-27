@@ -32,21 +32,37 @@ public class DeckTest {
     }
     
     @Test
-    public void testDeckEquals() {
+    public void testDeckEqualsHashCode() {
         // If we never shuffle, we can test full and partial decks for equality.
         Deck d1 = new Deck();
         Deck d2 = new Deck();
-        assertTrue("equals on new decks not equal!", d1.equals(d2));
+        assertTrue("new decks not equal!", d1.equals(d2));
+        System.out.println(d1.hashCode() + ": " + d2.hashCode());
+        assertEquals("new decks have different hash codes!", d1.hashCode(), d2.hashCode());
         
         try {
             for (int i = 0; i < 10; i++) {
                 d1.dealOneCard();
                 d2.dealOneCard();
             }
-            assertTrue("equals on partial decks not equal!", d1.equals(d2));
+            assertTrue("partial same size decks not equal!", d1.equals(d2));
+            assertEquals("partial same size decks have different hash codes!",
+                    d1.hashCode(), d2.hashCode());
 
             d1.dealOneCard();
-            assertFalse("different decks are equal!", d1.equals(d2));
+            assertFalse("different size decks are equal!", d1.equals(d2));
+            assertNotEquals("different size decks have same hash codes!",
+                    d1.hashCode(), d2.hashCode());
+            
+            // Clear the decks!
+            while (!d1.isEmpty()) {
+                d1.dealOneCard();
+            }
+            while(!d2.isEmpty()) {
+                d2.dealOneCard();
+            }
+            assertTrue("empty decks not equal!", d1.equals(d2));
+            assertEquals("empty decks have different hash codes!", d1.hashCode(), d2.hashCode());
         } catch (EmptyDeckException e) {
             fail("Unecxpected empty deck!");
         }

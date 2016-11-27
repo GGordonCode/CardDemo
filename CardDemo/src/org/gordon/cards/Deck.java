@@ -128,19 +128,25 @@ public class Deck {
         if (cardsRemaining != d.cardsRemaining) {
             return false;
         }
+        
+        // cardsRemaining are equal in both decks at this point.
 
-        return cardsRemaining == 0
-                || cards.subList(0, cardsRemaining).equals(d.cards.subList(0, cardsRemaining));
+        // If both are 0 length, no comparison needed (an optimization).
+        if (cardsRemaining == 0)
+            return true;
+        
+        return cardsRemaining == cards.size() ? cards.equals(d.cards)
+                : cards.subList(0, cardsRemaining).equals(d.cards.subList(0, cardsRemaining));
     }
 
     @Override
     public int hashCode() {
         // According to the contract for hash code, two objects that are not equal()
         // can return distinct hash codes, but two objects that are equal() *must*
-        // return the identical hash code.  To keep this simple for the purposes
-        // of this demo, we can therefore return the same arbitrary value for all
-        // objects.  Otherwise, it gets a little hairy due to the non-determinism.
-        return 1234;
+        // return the identical hash code.  Let's use similar logic to equals() given
+        // these rules.
+        return cardsRemaining == cards.size() ? cards.hashCode()
+                : cards.subList(0, cardsRemaining).hashCode(); 
     }
 
     // Iterate through all ranks/suits to build the deck.
