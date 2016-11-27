@@ -37,7 +37,6 @@ public class DeckTest {
         Deck d1 = new Deck();
         Deck d2 = new Deck();
         assertTrue("new decks not equal!", d1.equals(d2));
-        System.out.println(d1.hashCode() + ": " + d2.hashCode());
         assertEquals("new decks have different hash codes!", d1.hashCode(), d2.hashCode());
         
         try {

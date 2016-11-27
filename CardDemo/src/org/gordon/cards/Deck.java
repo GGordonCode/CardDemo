@@ -150,9 +150,9 @@ public class Deck {
     @Override
     public int hashCode() {
         // According to the contract for hash code, two objects that are not equal()
-        // can return distinct hash codes, but two objects that are equal() *must*
+        // may return the same hash code, but two objects that are equal() *must*
         // return the identical hash code.  Let's use similar logic to equals() given
-        // these rules.
+        // these rules to return the same value when they are conceptually equal.
         return cardsRemaining == cards.size() ? cards.hashCode()
                 : cards.subList(0, cardsRemaining).hashCode(); 
     }
