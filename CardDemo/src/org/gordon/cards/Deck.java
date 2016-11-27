@@ -121,18 +121,26 @@ public class Deck {
         if (obj == null || !getClass().equals(obj.getClass())) {
             return false;
         }
+        
+        // Consider the cards remaining and portion of the deck that is active for
+        // equality.  Thus we ignore the items that have already been dealt.
         Deck d = (Deck) obj;
         if (cardsRemaining != d.cardsRemaining) {
             return false;
         }
+
         return cardsRemaining == 0
                 || cards.subList(0, cardsRemaining).equals(d.cards.subList(0, cardsRemaining));
     }
 
     @Override
     public int hashCode() {
-        // Doesn't have to be perfectly unique. Good enough for this demo!
-        return super.hashCode();
+        // According to the contract for hash code, two objects that are not equal()
+        // can return distinct hash codes, but two objects that are equal() *must*
+        // return the identical hash code.  To keep this simple for the purposes
+        // of this demo, we can therefore return the same arbitrary value for all
+        // objects.  Otherwise, it gets a little hairy due to the non-determinism.
+        return 1234;
     }
 
     // Iterate through all ranks/suits to build the deck.

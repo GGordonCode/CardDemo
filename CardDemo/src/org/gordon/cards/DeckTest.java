@@ -32,6 +32,27 @@ public class DeckTest {
     }
     
     @Test
+    public void testDeckEquals() {
+        // If we never shuffle, we can test full and partial decks for equality.
+        Deck d1 = new Deck();
+        Deck d2 = new Deck();
+        assertTrue("equals on new decks not equal!", d1.equals(d2));
+        
+        try {
+            for (int i = 0; i < 10; i++) {
+                d1.dealOneCard();
+                d2.dealOneCard();
+            }
+            assertTrue("equals on partial decks not equal!", d1.equals(d2));
+
+            d1.dealOneCard();
+            assertFalse("different decks are equal!", d1.equals(d2));
+        } catch (EmptyDeckException e) {
+            fail("Unecxpected empty deck!");
+        }
+    }
+    
+    @Test
     public void testShuffle() {
         List<Card> lu = new ArrayList<Card>();
         List<Card> ls = new ArrayList<Card>();
