@@ -1,6 +1,8 @@
 # CardDemo
 Card Deck implemented in Java.  Compiled with JDK 8, should be compatible with JDK 7.
 
+There isn't much grounbreaking code here - I was asked to model a deck of cards as a quiz question and share it on GitHub.  So here it is.
+
 Main classes are Card and Deck.  There are embedded public Enums in Card for suit and rank.  There is a comprehensive JUnit test called DeckTest that will verify the correctness of the code.
 
 Usage:
